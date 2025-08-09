@@ -28,11 +28,7 @@ In this part, I add a **Disaster Recovery (DR)** site and ensure that if the **H
 - **5 PEs** – R1–R5
 - **MPLS Core** – Full LDP + IGP
 
-![Topology](
-
 <img width="1759" height="909" alt="Image" src="https://github.com/user-attachments/assets/95d72a1c-5baa-423b-81eb-ee15ba37d916" />
-
-)
 
 ---
 
@@ -156,10 +152,8 @@ Hub and DR learning routes via backdoor due to HUB to PE1 link down:
 
 <img width="1860" height="802" alt="Image" src="https://github.com/user-attachments/assets/f279db5b-daba-423e-ab24-c715a41f4205" />
 
-Instance-5 :traffic fall back from spoke to Hub reachability via DR when Hub to PE down  to Traffic from hub to spoke via PE1 post Hub to PE1 link 
-=============================================================================================
-restoration 
-=======
+Instance-5 :traffic fall back from spoke to Hub reachability via DR when Hub to PE down  to Traffic from hub to spoke via PE1 post Hub to PE1 link restoration
+==============================================================================================================================================================
 
 In this instance the link between hub and PE1 restore and traffic between hub to spoke will fallback via PE1, below is the topology and output supporting snaps 
 
@@ -197,31 +191,6 @@ Ping and trace route logs to hub from PE1 post Hub to PE1 link got restored :
 
 ---
 
-## 📂 Repository Structure
-
-```bash
-mpls-l3vpn-part2-dr-resilience/
-├── README.md
-├── topology_part2.png
-├── Multi-PE-MPLS-VPN-DR-Resilience.unl
-├── configs/
-│   ├── PE1.txt
-│   ├── PE2.txt
-│   ├── HUB.txt
-│   ├── DR.txt
-│   ├── SPK1.txt
-│   └── ...
-├── outputs/
-│   ├── instance1.png
-│   ├── instance2.png
-│   ├── instance3.png
-│   ├── instance4.png
-│   ├── instance5.png
-│   └── ...
-```
-
----
-
 ## 🚧 Next Steps
 
 ### ✅ Part 3: Internet Breakout + Dual ISP Failover
@@ -234,7 +203,7 @@ mpls-l3vpn-part2-dr-resilience/
 ## 🙌 Credits
 
 Created by **Amara Srinivas** – Network Engineer & Lab Enthusiast  
-🔗 Connect with me on [LinkedIn](https://www.linkedin.com)
+🔗 Connect with me on [LinkedIn](https://www.linkedin.com/in/amara-srinivas-53271a253/)
 
 ---
 
