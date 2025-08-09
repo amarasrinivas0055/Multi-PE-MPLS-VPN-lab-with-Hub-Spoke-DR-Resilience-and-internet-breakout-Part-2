@@ -1,0 +1,1051 @@
+ip configuration 
+
+R1 :
+----
+
+hostname PE1
+
+int e0/0
+
+ip add 12.1.1.1 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int lo1
+
+ip add 1.1.1.1 255.255.255.255
+
+exit
+
+
+R2:-
+----
+
+
+hostname PE2
+
+int e0/0
+
+ip add 12.1.1.2 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int e0/1
+
+ip add 23.1.1.2 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+
+int lo1
+
+ip add 2.2.2.2 255.255.255.255
+
+
+R3:-
+---
+
+hostname PE3
+
+int e0/0
+
+ip add 23.1.1.3 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int e0/1
+
+ip add 34.1.1.3 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+
+int lo1
+
+ip add 3.3.3.3 255.255.255.255
+
+R4 :-
+-----
+
+hostname PE4
+
+int e0/0
+
+ip add 34.1.1.4 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int e0/1
+
+ip add 45.1.1.4 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+
+int lo1
+
+ip add 4.4.4.4 255.255.255.255
+
+exit
+
+
+r5:-
+
+hostname PE5
+
+int e0/0
+
+ip add 45.1.1.5 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int lo1
+
+ip add 5.5.5.5 255.255.255.255
+
+exit
+
+
+R6 :-
+----
+
+hostname HUB
+
+int e0/0
+
+ip add 61.1.1.6 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int lo1
+
+ip add 60.1.1.1 255.255.255.255
+
+exit
+
+int lo2
+
+ip add 60.2.1.1 255.255.255.255
+
+exit
+
+int lo3
+
+ip add 60.3.1.1 255.255.255.255
+
+exit
+
+R7:
+
+hostname SPK1
+
+int fa0/0
+
+ip add 27.1.1.7 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int lo1
+
+ip add 70.1.1.1 255.255.255.255
+
+exit
+
+int lo2
+
+ip add 70.2.1.1 255.255.255.255
+
+exit
+
+int lo3
+
+ip add 70.3.1.1 255.255.255.255
+
+exit
+
+
+R8:
+
+hostname SPK2
+
+int fa0/0
+
+ip add 38.1.1.8 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int lo1
+
+ip add 80.1.1.1 255.255.255.255
+
+exit
+
+int lo2
+
+ip add 80.2.1.1 255.255.255.255
+
+exit
+
+int lo3
+
+ip add 80.3.1.1 255.255.255.255
+
+exit
+
+R9:-
+----
+
+hostname SPK3
+
+int fa0/0
+
+ip add 49.1.1.9 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int lo1
+
+ip add 90.1.1.1 255.255.255.255
+
+exit
+
+int lo2
+
+ip add 90.2.1.1 255.255.255.255
+
+exit
+
+int lo3
+
+ip add 90.3.1.1 255.255.255.255
+
+exit
+
+
+R10 :-
+-----
+
+hostname DR
+
+int e0/0
+
+ip add 50.1.1.10 255.255.255.0
+
+ip ospf network point-to-point
+
+no shutdown
+
+exit
+
+int lo1
+
+ip add 100.1.1.1 255.255.255.255
+
+exit
+
+int lo2
+
+ip add 100.2.1.1 255.255.255.255
+
+exit
+
+int lo3
+
+ip add 100.3.1.1 255.255.255.255
+
+exit
+
+
+------------------------------------------------
+
+ospf :
+------
+
+R1:-
+----
+
+router ospf 100 
+
+router-id 1.1.1.1
+
+network 12.1.1.0 0.0.0.255 area 0 
+
+network 1.1.1.1 255.255.255.255 area 0 
+
+mpls ldp autoconfig area 0
+
+exit
+
+R2 :-
+-----
+
+router ospf 100 
+
+router-id 2.2.2.2
+
+network 12.1.1.0 0.0.0.255 area 0 
+
+network 23.1.1.0 0.0.0.255 area 0 
+
+network 2.2.2.2 255.255.255.255 area 0 
+
+mpls ldp autoconfig area 0
+
+exit
+
+
+R3 :-
+-----
+
+router ospf 100 
+
+router-id 3.3.3.3
+
+network 23.1.1.0 0.0.0.255 area 0 
+
+network 34.1.1.0 0.0.0.255 area 0 
+
+network 3.3.3.3 255.255.255.255 area 0 
+
+mpls ldp autoconfig area 0
+
+exit
+
+
+R4 :-
+-----
+
+router ospf 100 
+
+router-id 4.4.4.4
+
+network 34.1.1.0 0.0.0.255 area 0 
+
+network 45.1.1.0 0.0.0.255 area 0 
+
+network 4.4.4.4 255.255.255.255 area 0 
+
+mpls ldp autoconfig area 0
+
+exit
+
+
+R5 :-
+-----
+
+router ospf 100 
+
+router-id 5.5.5.5
+
+network 45.1.1.0 0.0.0.255 area 0 
+
+network 5.5.5.5 255.255.255.255 area 0 
+
+mpls ldp autoconfig area 0
+
+exit
+
+---------------------------------------------------------------
+
+BGP Configuration :
+
+R1 :-
+-----
+
+router bgp 100
+
+neighbor 2.2.2.2 remote-as 100
+
+neighbor 2.2.2.2 update-source loopback1 
+
+neighbor 3.3.3.3 remote-as 100
+
+neighbor 3.3.3.3 update-source loopback1 
+
+neighbor 4.4.4.4 remote-as 100
+
+neighbor 4.4.4.4 update-source loopback1 
+
+neighbor 5.5.5.5 remote-as 100
+
+neighbor 5.5.5.5 update-source loopback1 
+
+address-family vpnv4 
+
+neighbor 2.2.2.2 activate
+
+neighbor 3.3.3.3 activate
+
+neighbor 4.4.4.4 activate
+
+neighbor 5.5.5.5 activate
+
+exit
+
+R2 :-
+-----
+
+router bgp 100
+
+neighbor 1.1.1.1 remote-as 100
+
+neighbor 1.1.1.1 update-source loopback1 
+
+neighbor 5.5.5.5 remote-as 100
+
+neighbor 5.5.5.5 update-source loopback1 
+
+address-family vpnv4 
+
+neighbor 1.1.1.1 activate
+
+neighbor 5.5.5.5 activate
+
+exit
+
+R3 :-
+-----
+
+router bgp 100
+
+neighbor 1.1.1.1 remote-as 100
+
+neighbor 1.1.1.1 update-source loopback1 
+
+neighbor 5.5.5.5 remote-as 100
+
+neighbor 5.5.5.5 update-source loopback1 
+
+address-family vpnv4 
+
+neighbor 1.1.1.1 activate
+
+neighbor 5.5.5.5 activate
+
+exit
+
+R4 :
+
+router bgp 100
+
+neighbor 1.1.1.1 remote-as 100
+
+neighbor 1.1.1.1 update-source loopback1 
+
+neighbor 5.5.5.5 remote-as 100
+
+neighbor 5.5.5.5 update-source loopback1 
+
+address-family vpnv4 
+
+neighbor 1.1.1.1 activate
+
+neighbor 5.5.5.5 activate
+
+exit
+
+
+
+R5 :
+
+router bgp 100
+
+neighbor 1.1.1.1 remote-as 100
+
+neighbor 1.1.1.1 update-source loopback1
+
+neighbor 2.2.2.2 remote-as 100
+
+neighbor 2.2.2.2 update-source loopback1 
+
+neighbor 3.3.3.3 remote-as 100
+
+neighbor 3.3.3.3 update-source loopback1 
+
+neighbor 4.4.4.4 remote-as 100
+
+neighbor 4.4.4.4 update-source loopback1 
+ 
+address-family vpnv4 
+
+neighbor 1.1.1.1 activate
+
+neighbor 2.2.2.2 activate
+
+neighbor 3.3.3.3 activate
+
+neighbor 4.4.4.4 activate
+
+exit
+
+--------------------------------------------------
+
+VRF :
+
+R1 :
+
+ip vrf HUB
+
+RD 10:10
+
+route-target export 100:100
+
+route-target import 200:200
+route-target import 300:300
+route-target import 400:400
+route-target import 500:500
+
+int e0/1
+
+ip vrf forwarding HUB
+
+ip ospf network point-to-point 
+
+ip add 61.1.1.1 255.255.255.0
+
+
+R2:-
+-----
+
+ip vrf SPK1
+
+RD  10:10
+
+route-target export 200:200
+
+route-target import 100:100
+route-target import 500:500
+
+exit
+
+
+int e0/2
+
+ip vrf forwarding SPK1
+
+ip ospf network point-to-point 
+
+ip add 27.1.1.2 255.255.255.0 
+
+exit
+
+
+R3:
+
+ip vrf SPK2
+
+RD 10:10
+
+route-target export 300:300
+
+route-target import 100:100
+route-target import 500:500
+
+
+exit
+
+int e0/2
+
+ip vrf forwarding SPK2
+
+ip ospf network point-to-point 
+
+ip add 38.1.1.3 255.255.255.0 
+
+no shut
+
+exit
+
+
+
+
+R4:
+
+ip vrf SPK3
+
+RD  10:10
+
+route-target export 400:400
+
+route-target import 100:100
+route-target import 500:500
+
+exit
+
+
+int e0/2
+
+ip vrf forwarding SPK3
+
+ip ospf network point-to-point
+
+no ip add 49.1.1.2 255.255.255.0 
+
+ip add 49.1.1.4 255.255.255.0 
+
+no shut
+
+exit
+
+
+R5 :
+
+ip vrf DR
+
+RD 10:10
+
+route-target export 500:500
+
+route-target import 100:100
+route-target import 200:200
+route-target import 300:300
+route-target import 400:400
+
+exit
+
+
+int e0/1
+
+ip vrf forwarding DR
+
+ip ospf network point-to-point
+
+ip add 50.1.1.5 255.255.255.0 
+
+no shut
+
+exit
+
+
+---------------------------
+
+CE TO PE OSPF :-
+
+
+R1 :-
+------
+
+router ospf 10 vrf HUB
+
+router-id 1.1.1.10 
+
+network 61.1.1.0 0.0.0.255 area 1
+
+exit
+
+R2:-
+-----
+
+router ospf 10 vrf SPK1
+
+router-id 2.2.2.10
+
+network 27.1.1.0 0.0.0.255 area 1
+
+exit
+
+R3:-
+-----
+
+router ospf 10 vrf SPK2
+
+router-id 3.3.3.10
+
+network 38.1.1.0 0.0.0.255 area 1
+
+exit
+
+
+R4:-
+-----
+
+router ospf 10 vrf SPK3
+
+router-id 4.4.4.10
+
+network 49.1.1.0 0.0.0.255 area 1
+
+exit
+
+R5:-
+-----
+
+router ospf 10 vrf DR
+
+router-id 5.5.5.10
+
+network 50.1.1.0 0.0.0.255 area 1
+
+exit
+
+
+R6:
+----
+
+router ospf 10 
+
+router-id 6.6.6.6 
+
+network 0.0.0.0 255.255.255.255 area 1 
+
+exit
+
+R7:
+----
+
+router ospf 10 
+
+router-id 7.7.7.7
+
+network 0.0.0.0 255.255.255.255 area 1 
+
+exit
+
+
+R8:
+----
+
+router ospf 10 
+
+router-id 8.8.8.8
+
+network 0.0.0.0 255.255.255.255 area 1 
+
+exit
+
+
+R9:
+----
+
+router ospf 10 
+
+router-id 9.9.9.9
+
+network 0.0.0.0 255.255.255.255 area 1 
+
+exit
+
+
+R10:
+----
+
+router ospf 10 
+
+router-id 10.10.10.10
+
+network 0.0.0.0 255.255.255.255 area 1 
+
+exit
+
+--------------------------------------------
+
+Redistibution :
+
+R1:-
+---
+
+router bgp 100 
+
+address-family ipv4 vrf HUB
+
+redistribute ospf 10
+
+exit
+
+
+router ospf 10 vrf HUB 
+
+redistribute  bgp 100 subnets 
+
+exit
+
+
+R2:-
+---
+
+router bgp 100 
+
+address-family ipv4 vrf SPK1
+
+redistribute ospf 10
+
+exit
+
+
+router ospf 10 vrf SPK1
+
+redistribute  bgp 100 subnets 
+
+exit
+
+
+R3:-
+---
+
+router bgp 100 
+
+address-family ipv4 vrf SPK2
+
+redistribute ospf 10
+
+exit
+
+
+router ospf 10 vrf SPK2
+
+redistribute  bgp 100 subnets 
+
+exit
+
+R4:-
+---
+
+router bgp 100 
+
+address-family ipv4 vrf SPK3
+
+redistribute ospf 10
+
+exit
+
+
+router ospf 10 vrf SPK3
+
+redistribute  bgp 100 subnets 
+
+exit
+
+
+R5:-
+---
+
+router bgp 100 
+
+address-family ipv4 vrf DR
+
+redistribute ospf 10
+
+exit
+
+
+router ospf 10 vrf DR
+
+redistribute  bgp 100 subnets 
+
+exit
+
+------------------------------------------
+
+Backdoor link config :
+
+R6 :- 
+
+int e0/1
+
+ip add 67.1.1.6 255.255.255.0 
+
+ip ospf cost 65535
+
+no shut 
+
+
+R10 :
+
+int e0/1
+
+ip add 67.1.1.10 255.255.255.0 
+
+ip ospf cost 65535
+
+no shut 
+
+------------------------------------------------------------
+
+sham link 
+
+
+int lo10
+
+ip vrf forwarding HUB 
+
+ip add 10.10.10.10 255.255.255.255 
+
+exit
+
+
+int lo10
+
+ip vrf forwarding DR
+
+ip add 50.50.50.50 255.255.255.255 
+
+exit
+
+
+R1 :
+----
+
+Router bgp 100 
+
+address-family ipv4 unicast vrf HUB 
+
+network 10.10.10.10 mask 255.255.255.255 
+
+exit
+
+
+router ospf 10 vrf HUB
+
+area 1 sham-link 10.10.10.10 50.50.50.50
+
+exit
+
+
+
+
+R5 :
+----
+
+Router bgp 100 
+
+address-family ipv4 unicast vrf DR 
+
+network 50.50.50.50 mask 255.255.255.255 
+
+exit
+
+
+router ospf 10 vrf DR
+
+area 1 sham-link 50.50.50.50 10.10.10.10
+
+exit
+
+
+
+=======================================================================
+
+
+Hi chat GPT. 
+
+I am aware you remember my Multi-PE-MPLS-VPN-lab-with-Hub-Spoke-DR-Resilience-and-internet-breakout-Part-1
+
+This is part two and i am sharing my lap outpus in the form of readme file explaining every output with output snip below 
+
+in this part of my lab i want to show my lab output in five instances 
+
+1) HUb to DR without backdoor link behavior
+
+2) Hub to DR with backdoor link behavior
+
+3)  Hub and DR behavior post creating sham link between PE1 To PE5
+
+4) Spoke to Hub reachability via DR when Hub to PE1 link down 
+
+5) traffic fall back from spoke to Hub rechability via DR when Hub to PE down  to Traffic from hub to spoke via PE1 post Hub to PE1 link restoration 
+
+Instance-1 : HUb to DR without backdoor link behavior :-
+======================================
+
+In this instance when link between HUB and PE1 goes down then my HUB becomes isolated and Hub to spoke communication goes down causing huge issue and communication blockage and business operations will get affected 
+
+Topology :
+------------
+<img width="1365" height="864" alt="Image" src="https://github.com/user-attachments/assets/920cb5b7-4ea8-4800-a5bf-9fe79ef5ed0a" />
+
+Hub and DR output without back door link :
+-------------------------------------------------
+
+Without backdoor link between HUB to DR the Hub routes to DR and DR routs to hub propogatins via PE1 Mpls path and DR roues in hub will be read as inter roues OIA and same in hub the DR routes are leared as OIA
+
+Note : When PE1 to HUB link goes down entire orgation coommunication will go dpwn 
+
+<img width="1824" height="607" alt="Image" src="https://github.com/user-attachments/assets/edfce21a-5fb6-4645-ad72-0c2d538a6127" />
+
+
+Instance-2 : HUb to DR with backdoor link behavior :-
+======================================
+
+The need for introducing backdoor link is when hub to PE1 fails i want redundency and i want my spoke to communicate with my hub even when my hub to PE1 link goes down 
+
+So i implemented to backdoor link and connected my Hub and DR using backdoor link in real time like leased link or point to point link 
+
+Topology :
+------------
+
+<img width="1512" height="889" alt="Image" src="https://github.com/user-attachments/assets/3f2b9e37-45a3-4ca4-90b2-432deaff83d3" />
+
+Hub and DR output without back door link :
+-------------------------------------------------
+
+When backdoor link become live my hub routes in DR and DR routs in hub are leared like O which LSA 1 and traffic between HUB and DR started flowing via backdoor link instead via Mpls path 
+
+<img width="1872" height="656" alt="Image" src="https://github.com/user-attachments/assets/83701d2b-34a7-405b-947b-fd4441e3198b" />
+
+As leased line are costly my bandwidth on leased line is less and this leased line need to come into action only when Hub to PE1 goes down, so to over come this issue 
+
+I increased the OSPF cost on leased link but yet still traffic between HUB and DR is via Backdoor because LSA 1 is given first priority rather then cost 
+
+<img width="1847" height="730" alt="Image" src="https://github.com/user-attachments/assets/866faf6a-d2db-4e14-85b8-5f3d29e98012" />
+
+Heance to over come this issue and to make sure my traffic between hub and DR flow through Mpls infra i created SHAM LINK between PE1 to PE2 
+
+
+Instance-3 : Hub and DR behavior post creating sham link between PE1 To PE5 :-
+======================================================
+
+Post creating sham link between PE1 and PE5 the traffic between HUB and DR started to flow via mpls infra because sham link is like extension of area 1 from PE1 to PE5 it manupultes the control plance and Hub and DR thinks this there is direct area 1 connection and as cost on Back door link is set to maximum 65535 traffic flow from mpls infra 
+
+Below are the images of hub to DE reachability roues and trace route supporting traffic is via mpls infra 
+
+<img width="1873" height="818" alt="Image" src="https://github.com/user-attachments/assets/7e4619e5-6a6d-45b5-a354-726432426ad9" />
+
+<img width="1849" height="873" alt="Image" src="https://github.com/user-attachments/assets/2c93986f-f762-4095-a03d-6cc927b49cc3" />
