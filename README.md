@@ -1,30 +1,59 @@
-# Multi-PE-MPLS-VPN-lab-with-Hub-Spoke-DR-Resilience-and-internet-breakout-Part-2
+# 🚀 Multi-PE MPLS VPN Lab – Part 2: DR Resilience with Sham-Link & Backdoor OSPF
 
+## 📘 Overview
 
-Hi chat GPT. 
+This is **Part 2** of my multi-stage **MPLS L3 VPN Lab** built in **EVE-NG**.  
+Following **Part 1** (Hub-to-Spoke reachability with RT control and isolation), this stage focuses on **resiliency and redundancy**.
 
-I am aware you remember my Multi-PE-MPLS-VPN-lab-with-Hub-Spoke-DR-Resilience-and-internet-breakout-Part-1
+In this part, I add a **Disaster Recovery (DR)** site and ensure that if the **Hub-to-PE1 link fails**, spokes can still reach the Hub **via the DR site** using **OSPF Sham-Link** and a **backdoor path**.
 
-This is part two and i am sharing my lap outpus in the form of readme file explaining every output with output snip below 
+> ⚙️ Technologies: MPLS, MP-BGP VPNv4, OSPF Sham-Link, Route Target control, IGP failover, MPLS VPN resiliency.
 
-in this part of my lab i want to show my lab output in five instances 
+---
 
-1) HUb to DR without backdoor link behavior
+## 🎯 Objectives
 
-2) Hub to DR with backdoor link behavior
+- Maintain Hub-to-Spoke reachability **even during Hub-to-PE1 failure**.
+- Implement **OSPF Sham-Link** to make MPLS path preferred over backdoor when primary is up.
+- Use **backdoor link** between Hub CE and DR CE for failover.
+- Keep **spoke-to-spoke isolation** intact.
 
-3)  Hub and DR behavior post creating sham link between PE1 To PE5
+---
 
-4) Spoke to Hub reachability via DR when Hub to PE1 link down 
+## 🧱 Topology
 
-5) traffic fall back from spoke to Hub rechability via DR when Hub to PE down  to Traffic from hub to spoke via PE1 post Hub to PE1 link restoration 
+- **1 Hub (CE)** – R6  
+- **3 Spokes (CE)** – R7, R8, R9  
+- **1 DR (CE)** – R10  
+- **5 PEs** – R1–R5
+- **MPLS Core** – Full LDP + IGP
 
-Part -2 Topology :
-=================
+![Topology](
 
-<img width="1759" height="909" alt="Image" src="https://github.com/user-attachments/assets/6f89e45f-491e-4f34-811a-7134b8ea1274" />
+<img width="1759" height="909" alt="Image" src="https://github.com/user-attachments/assets/95d72a1c-5baa-423b-81eb-ee15ba37d916" />
 
-Instance-1 : HUb to DR without backdoor link behavior :-
+)
+
+---
+
+## 🧠 Technologies Used
+
+| Component         | Protocol / Feature  |
+|-------------------|----------------------|
+| Transport         | MPLS (LDP)           |
+| PE-PE Routing     | MP-BGP (VPNv4)       |
+| PE-CE Routing     | OSPF                 |
+| Segmentation      | VRF with RD/RT       |
+| Route Control     | RT Import/Export     |
+| Resilience        | OSPF Sham-Link       |
+| Failover Path     | Backdoor CE-to-CE    |
+| Platform          | EVE-NG               |
+
+---
+
+## 📊 Test Scenarios & Results
+
+Instance-1 : HUB to DR without backdoor link behavior :-
 ======================================
 
 In this instance when link between HUB and PE1 goes down then my HUB becomes isolated and Hub to spoke communication goes down causing huge issue and communication blockage and business operations will get affected 
@@ -33,20 +62,20 @@ Topology :
 ------------
 <img width="1365" height="864" alt="Image" src="https://github.com/user-attachments/assets/920cb5b7-4ea8-4800-a5bf-9fe79ef5ed0a" />
 
-Hub and DR output without back door link :
+HUB and DR output without back door link :
 -------------------------------------------------
 
-Without backdoor link between HUB to DR the Hub routes to DR and DR routs to hub propogatins via PE1 Mpls path and DR roues in hub will be read as inter roues OIA and same in hub the DR routes are leared as OIA
+Without backdoor link between HUB to DR the Hub routes to DR and DR routs to hub propogatins via PE1 Mpls path and DR roues in hub will be read as inter routes OIA and same in hub the DR routes are learned as OIA
 
-Note : When PE1 to HUB link goes down entire orgation coommunication will go dpwn 
+Note : When PE1 to HUB link goes down entire organization  communication will go down 
 
 <img width="1824" height="607" alt="Image" src="https://github.com/user-attachments/assets/edfce21a-5fb6-4645-ad72-0c2d538a6127" />
 
 
-Instance-2 : HUb to DR with backdoor link behavior :-
+Instance-2 : HUB to DR with backdoor link behavior :-
 ======================================
 
-The need for introducing backdoor link is when hub to PE1 fails i want redundency and i want my spoke to communicate with my hub even when my hub to PE1 link goes down 
+The need for introducing backdoor link is when hub to PE1 fails i want redundancy and i want my spoke to communicate with my hub even when my hub to PE1 link goes down 
 
 So i implemented to backdoor link and connected my Hub and DR using backdoor link in real time like leased link or point to point link 
 
@@ -55,10 +84,10 @@ Topology :
 
 <img width="1512" height="889" alt="Image" src="https://github.com/user-attachments/assets/3f2b9e37-45a3-4ca4-90b2-432deaff83d3" />
 
-Hub and DR output without back door link :
+HUB and DR output without back door link :
 -------------------------------------------------
 
-When backdoor link become live my hub routes in DR and DR routs in hub are leared like O which LSA 1 and traffic between HUB and DR started flowing via backdoor link instead via Mpls path 
+When backdoor link become live my hub routes in DR and DR routs in hub are learned like O which LSA 1 and traffic between HUB and DR started flowing via backdoor link instead via MPLs path 
 
 <img width="1872" height="656" alt="Image" src="https://github.com/user-attachments/assets/83701d2b-34a7-405b-947b-fd4441e3198b" />
 
@@ -68,24 +97,24 @@ I increased the OSPF cost on leased link but yet still traffic between HUB and D
 
 <img width="1847" height="730" alt="Image" src="https://github.com/user-attachments/assets/866faf6a-d2db-4e14-85b8-5f3d29e98012" />
 
-Heance to over come this issue and to make sure my traffic between hub and DR flow through Mpls infra i created SHAM LINK between PE1 to PE2 
+Hence to over come this issue and to make sure my traffic between hub and DR flow through MPLS infra i created SHAM LINK between PE1 to PE2 
 
 
-Instance-3 : Hub and DR behavior post creating sham link between PE1 To PE5 :-
+Instance-3 : HUB and DR behavior post creating sham link between PE1 To PE5 :-
 ======================================================
 
-Post creating sham link between PE1 and PE5 the traffic between HUB and DR started to flow via mpls infra because sham link is like extension of area 1 from PE1 to PE5 it manupultes the control plance and Hub and DR thinks this there is direct area 1 connection and as cost on Back door link is set to maximum 65535 traffic flow from mpls infra 
+Post creating sham link between PE1 and PE5 the traffic between HUB and DR started to flow via MPLSs infra because sham link is like extension of area 1 from PE1 to PE5 it manipulates the control plane and Hub and DR thinks this there is direct area 1 connection and as cost on Back door link is set to maximum 65535 traffic flow from MPLS infra 
 
-Below are the images of hub to DE reachability roues and trace route supporting traffic is via mpls infra 
+Below are the images of hub to DE reachability routes and trace route supporting traffic is via MPLS infra 
 
 <img width="1873" height="818" alt="Image" src="https://github.com/user-attachments/assets/7e4619e5-6a6d-45b5-a354-726432426ad9" />
 
 <img width="1849" height="873" alt="Image" src="https://github.com/user-attachments/assets/2c93986f-f762-4095-a03d-6cc927b49cc3" />
 
-Instance-4 : Spoke to Hub reachability via DR when Hub to PE1 link down 
+Instance-4 : Spoke to HUB reachability via DR when Hub to PE1 link down 
 =============================================
 
-In this instance the link between hub and PE1 goes down and traffic between hub to spoke will propogate via DR and reachs hub with the help of Backdoor link, below are the output of all spokes and hub  when hub to PE1link goes down
+In this instance the link between hub and PE1 goes down and traffic between hub to spoke will propagate via DR and reach's hub with the help of Backdoor link, below are the output of all spokes and hub  when hub to PE1link goes down
 
 Topology :
 ------------
@@ -158,4 +187,58 @@ Ping and trace route logs to hub from PE1 post Hub to PE1 link got restored :
 -----------------------------------------------------------------------
 
 <img width="1845" height="1031" alt="Image" src="https://github.com/user-attachments/assets/d2330847-6705-492b-b790-833d88a1abcb" />
+
+## 🔍 Key Observations
+
+- **Sham-Link** prevents OSPF from preferring the backdoor link when MPLS path is active.
+- **Backdoor link** provides immediate failover during PE link loss.
+- **RT control** still ensures Spokes are isolated from each other.
+- **Convergence time** is minimal and routing tables update as expected.
+
+---
+
+## 📂 Repository Structure
+
+```bash
+mpls-l3vpn-part2-dr-resilience/
+├── README.md
+├── topology_part2.png
+├── Multi-PE-MPLS-VPN-DR-Resilience.unl
+├── configs/
+│   ├── PE1.txt
+│   ├── PE2.txt
+│   ├── HUB.txt
+│   ├── DR.txt
+│   ├── SPK1.txt
+│   └── ...
+├── outputs/
+│   ├── instance1.png
+│   ├── instance2.png
+│   ├── instance3.png
+│   ├── instance4.png
+│   ├── instance5.png
+│   └── ...
+```
+
+---
+
+## 🚧 Next Steps
+
+### ✅ Part 3: Internet Breakout + Dual ISP Failover
+- Provide Internet to all spokes via Hub
+- Implement NAT at Hub and DR
+- Failover between ISPs using IP SLA + Track
+
+---
+
+## 🙌 Credits
+
+Created by **Amara Srinivas** – Network Engineer & Lab Enthusiast  
+🔗 Connect with me on [LinkedIn](https://www.linkedin.com)
+
+---
+
+## 📎 License
+
+This project is for **educational & demonstration purposes only**.
 
